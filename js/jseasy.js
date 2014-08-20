@@ -1,5 +1,5 @@
 
-( function() {
+( function( global ) {
 
 	/**
 	 * Selector functionality
@@ -105,11 +105,26 @@
 
      };
 
-    String.prototype.GET = function() {
+    /*
+     * String Variant
+     */
+    Object.defineProperties( String.prototype, {
 
-    	var requestPath = this;
+    	"GET" : {
+    		"get" : function() {
+    			var requestPath = this;
+    			return XHRPromiseFactory( requestPath, { method : "GET" } );
+    		 }
+    	}
 
-    	return XHRPromiseFactory( requestPath, { method : "GET" } );
+    } );
+
+    /*
+     * Global Function Variant
+     */
+    global.GET = function( urlString ) {
+
+    	return XHRPromiseFactory( urlString, { method : "GET" } );
 
     };
 
@@ -118,4 +133,4 @@
      * End of HTTP Mechanisms
      */
 
-} )();
+} )( this );
